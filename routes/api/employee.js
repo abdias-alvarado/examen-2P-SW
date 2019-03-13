@@ -18,14 +18,65 @@ function initEmployee(db) {
    */
 
   router.get('/all', (req, res, next) => {
-    /*
-    empModel.xyz( (err, docs)=>{
-      return res.status(200).json(docs);
-    });
-    */
+    empModel.getEmployees(
+      function(err, resultado){
+        if(err) {
+          console.log(err);
+          return res.status(500).json({error:"No se ha podido completar la consulta."});
+        }
+        return res.status(200).json(resultado);
+      }
+    );
   });// all
 
-  
+  router.get('/byid/:id', (req, res, next)=>{
+    empModel.getEmployeesById(req.params.id, (err, result)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).json({"error":"No se ha podido obtener el empleado."});
+      }
+      return res.status(200).json(result);
+    } );
+  }); // byid
+
+  router.get('/bycompany/:company', (req, res, next)=>{
+    empModel.getEmployeesByCompany(req.params.company, (err, result)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).json({"error":"No se ha podido obtener el empleado."});
+      }
+      return res.status(200).json(result);
+    } );
+  }); // bycompany
+
+  router.get('/byagerange/:min/:max', (req, res, next)=>{
+    empModel.getEmployeesByAgeRange(req.params.min, req.params.max, (err, result)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).json({"error":"No se ha podido obtener el empleado."});
+      }
+      return res.status(200).json(result);
+    } );
+  }); // byagerange
+
+  router.get('/bytag/:tag', (req, res, next)=>{
+    empModel.getEmployeesByAgeRange(req.params.tag, (err, result)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).json({"error":"No se han podido obtener los empleados."});
+      }
+      return res.status(200).json(result);
+    } );
+  }); // bytag
+
+
+
+
+
+
+
+
+
   return router;
 }
 
