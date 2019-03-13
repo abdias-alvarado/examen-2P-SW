@@ -82,7 +82,14 @@ function initEmployee(db) {
 
   }); //addtag
 
-  
+  router.delete('/delete/:id', function(req, res, next){
+    empModel.removeEmployee(req.params.id, (err, result)=>{
+      if(err){
+        return res.status(500).json({"error":"No se ha podido eliminar el empleado"});
+      }
+      return res.status(200).json(result);
+    });
+  });// delete
 
 
 

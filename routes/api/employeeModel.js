@@ -98,11 +98,11 @@ function employeeModel(db){
 
     //var curatedTags = Array.isArray(tags)? tags: [tags];
     var updateObject = { "$push": { "tags": tag}};
-    empColl.updateOne({"_id": ObjectID(id)}, updateObject, (err, rsult)=>{
+    empColl.updateOne({"_id": ObjectID(id)}, updateObject, (err, result)=>{
         if(err){
           handler(err, null);
         }else{
-          handler(null, rsult.result);
+          handler(null, result.result);
         }
     } );
     //return handler(new Error("No Implementado"), null);
@@ -111,7 +111,14 @@ function employeeModel(db){
   lib.removeEmployee = (id, handler) => {
     //Implementar
     //Se requiere eliminar un documento de la colección
-    return handler(new Error("No Implementado"), null);
+    empColl.deleteOne({"_id": ObjectID(id)}, (err, result)=>{
+      if(err){
+        handler(err, null);
+      } else {
+        handler(null, result.result);
+      }
+    });
+    //return handler(new Error("No Implementado"), null);
   }
 
   lib.increaseAgeToAll = (ageDelta, handler) => {
