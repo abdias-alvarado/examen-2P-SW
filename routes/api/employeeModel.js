@@ -97,8 +97,8 @@ function employeeModel(db){
     // $push
 
     //var curatedTags = Array.isArray(tags)? tags: [tags];
-    var updateObject = { "$push": { "tags": tag}};
-    empColl.updateOne({"_id": ObjectID(id)}, updateObject, (err, result)=>{
+    var updateExpression = { "$push": { "tags": tag}};
+    empColl.updateOne({"_id": ObjectID(id)}, updateExpression, (err, result)=>{
         if(err){
           handler(err, null);
         }else{
@@ -125,7 +125,15 @@ function employeeModel(db){
     //Implementar
     //Se requiere modificar todos los documentos de la colección
     // incrementando age por la cantidad de ageDelta $inc
-    return handler(new Error("No Implementado"), null);
+    var updateExpression = { "$inc": { "age": parseInt(ageDelta)}};
+    empColl.updateMany({}, updateExpression, (err, result)=>{
+        if(err){
+          handler(err, null);
+        }else{
+          handler(null, result.result);
+        }
+    } );
+    //return handler(new Error("No Implementado"), null);
   }
   return lib;
 }
