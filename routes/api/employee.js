@@ -60,7 +60,7 @@ function initEmployee(db) {
   }); // byagerange
 
   router.get('/bytag/:tag', (req, res, next)=>{
-    empModel.getEmployeesByAgeRange(req.params.tag, (err, result)=>{
+    empModel.getEmployeesByTag(req.params.tag, (err, result)=>{
       if(err){
         console.log(err);
         return res.status(500).json({"error":"No se han podido obtener los empleados."});
@@ -68,6 +68,24 @@ function initEmployee(db) {
       return res.status(200).json(result);
     } );
   }); // bytag
+
+
+  router.post('/addtag/:id', function(req, res, next){
+    empModel.addEmployeeATag(req.body.tag, req.params.id, (err, result)=>{
+      if(err){
+        console.log(err);
+        return res.status(500).json({"error":"No se pudo agregar el tag."});
+      }
+      return res.status(200).json(result);
+    });
+
+
+  }); //addtag
+
+  
+
+
+
 
 
 

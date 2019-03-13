@@ -78,14 +78,34 @@ function employeeModel(db){
     // al menos una vez el tag dentro del arreglo
     // tags
     // mostrar solo name, email, tags
-    return handler(new Error("No Implementado"), null);
+    empColl.find({"tags": tag}).project({'name':1, 'email':1, 'tags':1}).toArray(
+      (err , resultado) => {
+        if(err){
+          handler(err, null);
+        }else{
+          handler(null, resultado);
+        }
+      }
+     );
+
+    //return handler(new Error("No Implementado"), null);
   }
 
   lib.addEmployeeATag = ( tag, id, handler) => {
     //Implementar
     //Se requiere agregar a un documento un nuevo tag
     // $push
-    return handler(new Error("No Implementado"), null);
+
+    //var curatedTags = Array.isArray(tags)? tags: [tags];
+    var updateObject = { "$push": { "tags": tag}};
+    empColl.updateOne({"_id": ObjectID(id)}, updateObject, (err, rsult)=>{
+        if(err){
+          handler(err, null);
+        }else{
+          handler(null, rsult.result);
+        }
+    } );
+    //return handler(new Error("No Implementado"), null);
   }
 
   lib.removeEmployee = (id, handler) => {
